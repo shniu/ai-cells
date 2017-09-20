@@ -1,4 +1,11 @@
-# ai-cells
+
+## The best blog
+
+- [Mongodb的driver作者 A. Jesse Jiryu Davis](https://emptysqua.re/blog/)
+
+- [fullstackpython](https://www.fullstackpython.com/)
+
+## ai-cells
 归纳整合所有的基础算法与数据结构，包含但不限于排序、查找、动态规划、贪心、数、图等
 
 
