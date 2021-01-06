@@ -1,0 +1,20 @@
+
+style {
+    excludePackages = [
+    ]
+    excludeClasses = [
+            "com.github.shniu.im.core.CommonConstant"
+    ]
+}
+
+dependencies {
+
+}
+
+jar {
+    enabled = true
+}
+
+test {
+    useJUnitPlatform()
+}

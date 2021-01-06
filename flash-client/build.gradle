@@ -1,0 +1,36 @@
+//plugins {
+//    id 'java'
+//}
+
+style {
+    excludePackages = [
+    ]
+    excludeClasses = [
+            "com.github.shniu.im.client.FlashClientApplication"
+    ]
+}
+
+dependencies {
+
+}
+
+//bootJar {
+//    // classifier = 'boot'
+//    // archiveName = 'virtual-service'
+//    archiveFileName = "${archiveBaseName.get()}-${archiveVersion.get()}.${archiveExtension.get()}"
+//
+//    // https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-1.4-Release-Notes#jersey-classpath-scanning-limitations
+//    requiresUnpack '**/flash-*.jar'
+//
+//    excludeDevtools = false
+//    launchScript()
+//}
+
+jar {
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF'
+
+    manifest {
+        attributes 'Main-Class': 'com.github.shniu.im.client.FlashClientApplication',
+                'Class-Path': configurations.runtime.files.collect { "lib/$it.name" }.join(' ')
+    }
+}

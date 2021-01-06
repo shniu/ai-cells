@@ -1,0 +1,94 @@
+buildscript {
+    repositories {
+        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        // classpath("io.spring.gradle:dependency-management-plugin:1.0.9.RELEASE")
+        // classpath("gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:1.4.17")
+        // classpath("gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.13.0")
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: "groovy"
+
+    group 'com.github.shniu.im'
+    version '1.0'
+
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+        options.compilerArgs << "-Xlint:unchecked"
+        options.compilerArgs << "-Xlint:deprecation"
+    }
+
+    repositories {
+        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        jcenter()
+        mavenCentral()
+        maven { url "http://repo.maven.apache.org/maven2" }
+    }
+
+    ext {
+        guavaVersion = '27.1-jre'
+
+        junitVersion = '5.5.2'
+        junitPlatformVersion = '1.5.2'
+        hamcrestVersion = '2.1'
+        assertJVersion = '3.13.2'
+        mockitoVersion = '3.1.0'
+    }
+
+    dependencies {
+        implementation("com.google.guava:guava:$guavaVersion")
+
+        testImplementation("org.junit.platform:junit-platform-commons:$junitPlatformVersion")
+        testImplementation("org.junit.platform:junit-platform-launcher:$junitPlatformVersion")
+        testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
+        testImplementation("org.junit.jupiter:junit-jupiter-params:$junitVersion")
+        testRuntime("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+        testImplementation("org.assertj:assertj-core:$assertJVersion")
+        testImplementation("org.mockito:mockito-core:$mockitoVersion")
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    apply from: "$rootDir/gradle/config/scripts/checkStyle.gradle"
+
+    style.excludePackages = [
+    ]
+
+    style.excludeClasses = [
+    ]
+}
+
+configure(subprojects - project(':flash-server')) {
+    if (project.name != "bitgo-client") {
+        print 'bootstrap dependencies: ' + project.name + '\n'
+        project(':flash-server').dependencies {
+            implementation(project)
+        }
+    }
+}
+
+configure(subprojects - project(':flash-client')) {
+    if (project.name != "flash-server") {
+        print 'jobs dependencies: ' + project.name + '\n'
+        project(':flash-client').dependencies {
+            implementation(project)
+        }
+    }
+}
+
+allprojects {
+    apply plugin: 'idea'
+}
+
+apply from: "$rootDir/gradle/config/scripts/idea.gradle"
