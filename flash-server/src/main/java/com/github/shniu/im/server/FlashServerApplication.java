@@ -1,7 +1,8 @@
 package com.github.shniu.im.server;
 
-import com.github.shniu.im.core.CommonConstant;
-import com.github.shniu.im.core.util.StringUtil;
+import com.github.shniu.im.core.IMBootstrap;
+import com.github.shniu.im.core.IMConfiguration;
+import com.github.shniu.im.server.handler.netty.EchoHandler;
 
 /**
  * @author niushaohan
@@ -9,9 +10,13 @@ import com.github.shniu.im.core.util.StringUtil;
  */
 public class FlashServerApplication {
     public static void main(String[] args) {
-        System.out.println(CommonConstant.SERVER_WELCOME);
+        IMConfiguration configuration = IMConfiguration.defaultBuilder();
 
-        // StringUtil.join(Lists.newArrayList("12", "34"));
-        StringUtil.join("1", "2", "3");
+        IMBootstrap imBootstrap = new IMServerBootstrap(configuration);
+
+        // Init handlers
+        imBootstrap.addHandler(EchoHandler.class);
+
+        imBootstrap.start();
     }
 }

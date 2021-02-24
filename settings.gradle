@@ -3,4 +3,5 @@ rootProject.name = 'flash-instant-message'
 include 'flash-client'
 include 'flash-server'
 include 'flash-core'
+include 'flash-nio'
 
